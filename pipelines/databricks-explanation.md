@@ -80,3 +80,6 @@ This makes Databricks the preferred tool for SILVER and GOLD layers.
 ## Summary
 Databricks demonstrates how a code‑driven approach provides full MDM capabilities and advanced transformation logic.  
 This file exists to explain the Databricks portion of the comparison project.
+
+##Special note from Author!
+I am an andriod user and Databricks suits my thinking process for unlimited flexibility!
