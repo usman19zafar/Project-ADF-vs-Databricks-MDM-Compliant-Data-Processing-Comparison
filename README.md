@@ -83,3 +83,84 @@ Both pipelines enforce core Master Data Management principles:
 
 ## Repository Structure
 
+```code
+
+├── README.md
+│
+├── datasets/
+│   ├── customers.csv
+│   ├── orders.csv
+│   └── products.csv
+│
+├── adf/
+│   ├── df_mini_screenshot.png
+│   ├── pipeline.json
+│   ├── dataflow_raw_to_bronze.json
+│   └── explanation.md
+│
+├── databricks/
+│   ├── pipeline2_screenshot.png
+│   ├── silver_transformations.py
+│   └── gold_models.py
+│
+└── comparison/
+├── comparison.md
+└── mdm_principles.md
+```
+
+---
+
+## Comparison Summary
+
+### ADF Data Flow
+**Strengths**
+- Excellent for ingestion  
+- Handles schema drift  
+- Visual transformations  
+- Easy orchestration  
+
+**Limitations**
+- UI inconsistencies  
+- Harder debugging  
+- Limited complex logic  
+
+---
+
+### Databricks Notebooks
+**Strengths**
+- Full control with PySpark  
+- Advanced window functions  
+- Delta Lake optimization  
+- Ideal for SILVER/GOLD logic  
+
+**Limitations**
+- Requires coding  
+- More setup effort  
+
+---
+
+## Purpose of This Project
+This repository is designed for:
+- data engineers  
+- architects  
+- students  
+- interview preparation  
+- portfolio demonstration  
+
+It shows how two major Azure tools solve the **same MDM problem** in different ways.
+
+---
+
+## How to Run
+
+1. Upload RAW CSVs to your storage account  
+2. Import ADF pipeline and Data Flows  
+3. Import Databricks notebooks  
+4. Run each pipeline independently  
+5. Compare BRONZE, SILVER, and GOLD outputs  
+
+---
+
+## License
+MIT License
+
