@@ -1,0 +1,129 @@
+parameters{
+	load_data as string (total_amount)
+}
+source(output(
+		CustomerID as string,
+		FirstName as string,
+		LastName as string,
+		Email as string,
+		Phone as string,
+		City as string,
+		State as string,
+		SignupDate as string
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	ignoreNoFilesFound: false) ~> src0Customer
+source(output(
+		OrderID as string,
+		CustomerID as string,
+		ProductID as string,
+		OrderDate as string,
+		Quantity as string,
+		TotalAmount as string,
+		Status as string
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	ignoreNoFilesFound: false) ~> src0orders
+source(output(
+		ProductID as string,
+		ProductName as string,
+		Category as string,
+		Price as string,
+		StockQuantity as string,
+		ActiveFlag as string
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	ignoreNoFilesFound: false) ~> src0products
+src0Customer select(mapColumn(
+		customer_id = CustomerID,
+		first_name = FirstName,
+		last_name = LastName,
+		email = Email,
+		phone = Phone,
+		city = City,
+		state = State,
+		signup_date = SignupDate
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> select0customers
+src0orders select(mapColumn(
+		order_id = OrderID,
+		customer_id = CustomerID,
+		product_id = ProductID,
+		order_date = OrderDate,
+		quantity = Quantity,
+		total_amount = TotalAmount,
+		status = Status
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> select0Orders
+src0products select(mapColumn(
+		product_id = ProductID,
+		product_name = ProductName,
+		category = Category,
+		price = Price,
+		stock_quantity = StockQuantity,
+		active_flag = ActiveFlag
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> select0products
+select0customers derive(customer_id = trim(customer_id),
+		first_name = trim(first_name),
+		last_name = trim(last_name),
+		email = lower(trim(email)),
+		phone = lower(trim(phone)),
+		city = lower(trim(city)),
+		state = lower(trim(state)),
+		signup_date = toDate(signup_date, 'yyyy-MM-dd')) ~> der0customer
+select0Orders derive(order_id = trim(order_id),
+		customer_id = trim(customer_id),
+		product_id = trim(product_id),
+		order_date = trim(order_date),
+		quantity = lower(trim(quantity)),
+		total_amount = trim(total_amount),
+		status = lower(trim(status))) ~> derived0order
+select0products derive(product_id = trim(product_id),
+		product_name = trim(product_name),
+		category = lower(trim(category)),
+		price = lower(trim(price)),
+		stock_quantity = trim(stock_quantity),
+		active_flag = trim(active_flag)) ~> derivedColumn2
+der0customer filter(!isNull(customer_id) && !isNull(email)) ~> filter0customers
+derived0order filter(!isNull(order_id) && !isNull(order_date)) ~> filter0orders
+derivedColumn2 filter(!isNull(product_id)) ~> filter0products
+filter0customers window(over(customer_id),
+	desc(signup_date, true),
+	row_num = rowNumber()) ~> window0cus
+filter0orders window(over(customer_id),
+	desc(order_date, true),
+	order_row_number = rowNumber()) ~> window0ord
+filter0products window(over(product_id),
+	desc(price, true),
+	product_row_number = rowNumber()) ~> window0prod
+window0cus sink(allowSchemaDrift: true,
+	validateSchema: false,
+	format: 'parquet',
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> sink1
+window0ord sink(allowSchemaDrift: true,
+	validateSchema: false,
+	format: 'parquet',
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> sink0order
+window0prod sink(allowSchemaDrift: true,
+	validateSchema: false,
+	format: 'parquet',
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> sink0products
