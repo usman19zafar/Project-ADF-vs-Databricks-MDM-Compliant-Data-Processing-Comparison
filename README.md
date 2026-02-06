@@ -93,11 +93,11 @@ Both pipelines enforce core Master Data Management principles:
 │   └── products.csv
 │
 ├── pipelines/
-│   ├── df_mini_screenshot.png
+│   ├── df_mini_screenshot.jpg
 │   ├── pipeline.json
 │   ├── dataflow_raw_to_bronze.json
 │   ├── explanation.md
-│   └── pipeline2_screenshot.png
+│   └── pipeline2_screenshot.jpg
 │   
 │
 └── comparison/
