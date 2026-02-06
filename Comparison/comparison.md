@@ -13,7 +13,7 @@ The goal is to show how each tool handles identical transformations, highlight s
 ---
 
 ## High‑Level Comparison
-```code
+```yaml
 +---------------------+------------------------+---------------------------+
 |      Category       |     ADF Data Flows     |     Databricks Notebooks |
 +---------------------+------------------------+---------------------------+
@@ -82,9 +82,9 @@ The goal is to show how each tool handles identical transformations, highlight s
 
 ## MDM Alignment Comparison
 
-```code
+```yaml
 +-------------------------+------------------+---------------------------+
-|       MDM Feature       |       ADF        |        Databricks        |
+|       MDM Feature       |       ADF        |         Databricks        |
 +-------------------------+------------------+---------------------------+
 | Identity Resolution     | Basic            | Full                      |
 | Deduplication           | Yes (limited)    | Yes (advanced)            |
