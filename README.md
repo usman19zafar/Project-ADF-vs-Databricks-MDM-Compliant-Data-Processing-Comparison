@@ -97,8 +97,8 @@ Both pipelines enforce core Master Data Management principles:
 │   ├── pipeline.json
 │   ├── dataflow_raw_to_bronze.json
 │   ├── explanation.md
-│   ├── pipeline2_screenshot.png
-│   └── gold_models.py
+│   └── pipeline2_screenshot.png
+│   
 │
 └── comparison/
     ├── comparison.md
