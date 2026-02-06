@@ -92,20 +92,17 @@ Both pipelines enforce core Master Data Management principles:
 │   ├── orders.csv
 │   └── products.csv
 │
-├── adf/
+├── pipelines/
 │   ├── df_mini_screenshot.png
 │   ├── pipeline.json
 │   ├── dataflow_raw_to_bronze.json
-│   └── explanation.md
-│
-├── databricks/
+│   ├── explanation.md
 │   ├── pipeline2_screenshot.png
-│   ├── silver_transformations.py
 │   └── gold_models.py
 │
 └── comparison/
-├── comparison.md
-└── mdm_principles.md
+    ├── comparison.md
+    └── mdm_principles.md
 ```
 
 ---
